@@ -1,13 +1,46 @@
-# Godot 4+ specific ignores
+.import/
+.export/
+export.cfg
+export_presets.cfg
+
+# Godot project file (keep it tracked)
+# project.godot
+
+# Godot editor data
 .godot/
-/android/
-bin/
-obj/
-*.user
-*.suo
-*.vs/
-*.log
-*.cache
-*.tmp
-*.exe
+*.godot/tmp/
+*.converted.scn
+
+# Mono / C# build artifacts
+.mono/
+data_*/
+mono_crash.*
 *.dll
+*.exe
+*.mdb
+*.pdb
+*.pidb
+*.csproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb.meta
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Visual Studio Code
+.vscode/
+
+# Rider / JetBrains
+.idea/
+
+# C# Meta and temp files
+*.csproj.user
+*.csproj.DotSettings
+*.csproj.userprefs
+*.csproj.*.user
+*.csproj.FilesWrittenAbsolute.txt
+*.cs.uid
