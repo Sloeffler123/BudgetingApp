@@ -23,7 +23,7 @@ mono_crash.*
 *.csproj
 *.sln
 *.suo
-*.user
+.user/
 *.userprefs
 *.pidb.meta
 
