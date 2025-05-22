@@ -1,12 +1,14 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Numerics;
+
 public partial class AppManager : Control
 {
     [Export]
     public PackedScene TransactionList;
-    Budget currentBudget;
+    [Export]
+    public PackedScene AddTransactionMenu;
+    public static Budget currentBudget;
     public override void _Ready()
     {
         currentBudget = new Budget()
@@ -48,7 +50,7 @@ public partial class AppManager : Control
             container.AddChild(tableRow);
             totalExpense += value.Amount;
         }
-        GetNode<RichTextLabel>("TotalInE/ExpenseAmount").Text = totalExpense.ToString();
+        GetNode<RichTextLabel>("TotalInE/ExpenseAmount").Text = "[center][b]" + totalExpense.ToString();
         float totalIncome = 0;
         foreach (var value in currentBudget.Income)
         {
@@ -60,6 +62,13 @@ public partial class AppManager : Control
             container.AddChild(tableRow);
             totalIncome += value.Amount;
         }
-        GetNode<RichTextLabel>("TotalInE/IncomeAmount").Text = totalIncome.ToString();
+        GetNode<RichTextLabel>("TotalInE/IncomeAmount").Text = "[center][b]" + totalIncome.ToString();
+    }
+
+    public void _on_add_transaction_button_down()
+    {
+        Node transactionMenu = AddTransactionMenu.Instantiate();
+        AddChild(transactionMenu);
     }
 }
+
