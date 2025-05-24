@@ -1,33 +1,40 @@
 [gd_scene format=3 uid="uid://boaspwxjvtphv"]
 
-[node name="TransactionRow" type="HBoxContainer"]
+[node name="TransactionPanel" type="Panel"]
+custom_minimum_size = Vector2(0, 100)
 offset_left = 5.0
-offset_top = 258.0
-offset_right = 918.33
-offset_bottom = 369.0
+offset_top = 2.0
+offset_right = 446.0
+offset_bottom = 102.0
+
+[node name="TransactionRow" type="HBoxContainer" parent="."]
+offset_left = -2.0
+offset_top = 1.0
+offset_right = 439.0
+offset_bottom = 102.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Date" type="RichTextLabel" parent="."]
+[node name="Date" type="RichTextLabel" parent="TransactionRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "5/20/2025"
 fit_content = true
 
-[node name="Name" type="RichTextLabel" parent="."]
+[node name="Name" type="RichTextLabel" parent="TransactionRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "test transaction long version"
-fit_content = true
+scroll_active = false
 
-[node name="Amount" type="RichTextLabel" parent="."]
+[node name="Amount" type="RichTextLabel" parent="TransactionRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "50000"
 fit_content = true
 
-[node name="Type" type="RichTextLabel" parent="."]
+[node name="Type" type="RichTextLabel" parent="TransactionRow"]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "home is a long value"
-fit_content = true
+scroll_active = false

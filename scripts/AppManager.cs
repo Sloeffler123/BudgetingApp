@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 public partial class AppManager : Control
 {
@@ -20,57 +21,8 @@ public partial class AppManager : Control
             Expenses = new List<Transaction>(),
             Income = new List<Transaction>()
         };
-
-        currentBudget.Expenses.Add(new Transaction()
-        {
-            Name = "test",
-            Date = DateTime.Now.Date,
-            Amount = 50,
-            Type = "home"
-        });
-
-        currentBudget.Expenses.Add(new Transaction()
-        {
-            Name = "test2",
-            Date = DateTime.Now.Date,
-            Amount = 501,
-            Type = "home"
-        });
-
-        currentBudget.Income.Add(new Transaction()
-        {
-            Name = "paycheck 1",
-            Date = DateTime.Now.Date,
-            Amount = 2000,
-            Type = "home"
-        });
-
-        container = GetNode<VBoxContainer>("ScrollContainer/TransactionList");
-
-        foreach (var value in currentBudget.Expenses)
-        {
-            Node tableRow = TransactionList.Instantiate();
-            tableRow.GetNode<RichTextLabel>("Date").Text = value.Date.ToString("d");
-            tableRow.GetNode<RichTextLabel>("Name").Text = value.Name;
-            tableRow.GetNode<RichTextLabel>("Amount").Text = value.Amount.ToString();
-            tableRow.GetNode<RichTextLabel>("Type").Text = value.Type;
-            container.AddChild(tableRow);
-            totalExpense += value.Amount;
-        }
-
-        GetNode<RichTextLabel>("TotalInE/ExpenseAmount").Text = "[center][b]" + totalExpense.ToString();
-
-        foreach (var value in currentBudget.Income)
-        {
-            Node tableRow = TransactionList.Instantiate();
-            tableRow.GetNode<RichTextLabel>("Date").Text = value.Date.ToString("d");
-            tableRow.GetNode<RichTextLabel>("Name").Text = value.Name;
-            tableRow.GetNode<RichTextLabel>("Amount").Text = value.Amount.ToString();
-            tableRow.GetNode<RichTextLabel>("Type").Text = value.Type;
-            container.AddChild(tableRow);
-            totalIncome += value.Amount;
-        }
-        GetNode<RichTextLabel>("TotalInE/IncomeAmount").Text = "[center][b]" + totalIncome.ToString();
+        container = GetNode<VBoxContainer>("TransactionList/ScrollContainer/TransactionList");
+        LoadCSV("C:\\Users\\samlo\\Downloads\\AccountHistory.csv");
     }
 
     public void _on_add_transaction_button_down()
@@ -93,25 +45,52 @@ public partial class AppManager : Control
         {
             currentBudget.Income.Add(transaction);
             totalIncome += transaction.Amount;
-            GetNode<RichTextLabel>("TotalInE/IncomeAmount").Text = "[center][b]" + totalIncome.ToString();
+            GetNode<RichTextLabel>("TotalInE/Income/IncomeAmount").Text = "[center][b]" + totalIncome.ToString();
         }
         else
         {
             currentBudget.Expenses.Add(transaction);
             totalExpense += transaction.Amount;
-            GetNode<RichTextLabel>("TotalInE/ExpenseAmount").Text = "[center][b]" + totalExpense.ToString();
+            GetNode<RichTextLabel>("TotalInE/Expense/ExpenseAmount").Text = "[center][b]" + totalExpense.ToString();
 
         }
         AddTransactionToList(transaction);
-        
+
+        GetNode<TextureProgressBar>("TotalInE/TextureProgressBar").MaxValue = totalIncome;
+        GetNode<TextureProgressBar>("TotalInE/TextureProgressBar").Value = totalExpense;
+
     }
     private void AddTransactionToList(Transaction transaction)
     {
         Node tableRow = TransactionList.Instantiate();
-        tableRow.GetNode<RichTextLabel>("Date").Text = transaction.Date.ToString("d");
-        tableRow.GetNode<RichTextLabel>("Name").Text = transaction.Name;
-        tableRow.GetNode<RichTextLabel>("Amount").Text = transaction.Amount.ToString();
-        tableRow.GetNode<RichTextLabel>("Type").Text = transaction.Type;
+        tableRow.GetNode<RichTextLabel>("TransactionRow/Date").Text = transaction.Date.ToString("d");
+        tableRow.GetNode<RichTextLabel>("TransactionRow/Name").Text = transaction.Name;
+        tableRow.GetNode<RichTextLabel>("TransactionRow/Amount").Text = transaction.Amount.ToString();
+        tableRow.GetNode<RichTextLabel>("TransactionRow/Type").Text = transaction.Type;
         container.AddChild(tableRow);
+    }
+
+    private void LoadCSV(string path)
+    {
+        List<string[]> parsedData = new List<string[]>();
+        using (StreamReader reader = new StreamReader(path))
+        {
+            while (!reader.EndOfStream)
+            {
+                string line = reader.ReadLine();
+                string[] fields = line.Split(',');
+                parsedData.Add(fields);
+            }
+        }
+        foreach (var tableRow in parsedData)
+        {
+            if (tableRow[0] == "Account Number")
+            {
+                continue;
+            }
+            AddTransactionToTransaction(tableRow[3], tableRow[1],
+                tableRow[4] != "" ? float.Parse(tableRow[4]) : float.Parse(tableRow[5]),
+                "Home", tableRow[4] == "");  
+        }
     }
 }

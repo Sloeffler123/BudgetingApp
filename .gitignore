@@ -44,3 +44,8 @@ Thumbs.db
 *.csproj.*.user
 *.csproj.FilesWrittenAbsolute.txt
 *.cs.uid
+
+# csv
+**/AccountHistory.csv
+
+
