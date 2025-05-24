@@ -4,7 +4,7 @@ using System;
 public partial class AddTransactionWindow : Panel
 {
     [Signal]
-    public delegate void AddTransactionEventHandler(string Name, string Date, float Amount, string Type, bool Income);
+    public delegate void AddTransactionEventHandler(string Name, string Date, float Amount, int Type, bool Income);
     public void _on_cancel_button_down()
     {
         QueueFree();
@@ -16,7 +16,7 @@ public partial class AddTransactionWindow : Panel
             GetNode<LineEdit>("VBoxContainer/Name/LineEdit").Text,
             GetNode<LineEdit>("VBoxContainer/Date/LineEdit").Text,
             float.Parse(GetNode<LineEdit>("VBoxContainer/Amount/LineEdit").Text),
-            GetNode<LineEdit>("VBoxContainer/Type/LineEdit").Text,
+            GetNode<OptionButton>("VBoxContainer/Type/Type").Selected,
             GetNode<CheckButton>("VBoxContainer/IncomeCheckButton/CheckButton").ButtonPressed
         );
         QueueFree();

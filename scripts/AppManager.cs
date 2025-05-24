@@ -9,10 +9,14 @@ public partial class AppManager : Control
     public PackedScene TransactionList;
     [Export]
     public PackedScene AddTransactionMenu;
+    [Export]
+    public PackedScene TransactionCategoryLineItem;
     public static Budget currentBudget;
     float totalIncome = 0;
     float totalExpense = 0;
+    bool lastTransactionStyleBoxLight;
     VBoxContainer container;
+    Dictionary<string, float> catagoryExpenses;
     public override void _Ready()
     {
         currentBudget = new Budget()
@@ -32,14 +36,15 @@ public partial class AppManager : Control
         transactionMenu.AddTransaction += AddTransactionToTransaction;
     }
 
-    private void AddTransactionToTransaction(string Name, string Date, float Amount, string Type, bool Income)
+    private void AddTransactionToTransaction(string Name, string Date, float Amount, int Type, bool Income)
     {
+        Name = Name.Replace("POS Withdrawal - ", "");
         Transaction transaction = new Transaction()
         {
             Name = Name,
             Date = DateTime.Parse(Date).Date,
             Amount = Amount,
-            Type = Type
+            Type = (TransactionType)Type
         };
         if (Income)
         {
@@ -54,21 +59,40 @@ public partial class AppManager : Control
             GetNode<RichTextLabel>("TotalInE/Expense/ExpenseAmount").Text = "[center][b]" + totalExpense.ToString();
 
         }
-        AddTransactionToList(transaction);
+        StyleBox box;
+        if (lastTransactionStyleBoxLight)
+        {
+            box = ResourceLoader.Load<StyleBox>("res://Scenes/transaction_row_dark.tres");
+        }
+        else
+        {
+            box = ResourceLoader.Load<StyleBox>("res://Scenes/transaction_row_light.tres");
+        }
+        lastTransactionStyleBoxLight = !lastTransactionStyleBoxLight;
+        AddTransactionToList(transaction, box);
 
         GetNode<TextureProgressBar>("TotalInE/TextureProgressBar").MaxValue = totalIncome;
         GetNode<TextureProgressBar>("TotalInE/TextureProgressBar").Value = totalExpense;
 
     }
-    private void AddTransactionToList(Transaction transaction)
+    private void AddTransactionToList(Transaction transaction, StyleBox box)
     {
-        Node tableRow = TransactionList.Instantiate();
+        TransactionRow tableRow = TransactionList.Instantiate<TransactionRow>();
+
+        tableRow.AddThemeStyleboxOverride("panel", box);
         tableRow.GetNode<RichTextLabel>("TransactionRow/Date").Text = transaction.Date.ToString("d");
         tableRow.GetNode<RichTextLabel>("TransactionRow/Name").Text = transaction.Name;
         tableRow.GetNode<RichTextLabel>("TransactionRow/Amount").Text = transaction.Amount.ToString();
-        tableRow.GetNode<RichTextLabel>("TransactionRow/Type").Text = transaction.Type;
+        tableRow.GetNode<OptionButton>("TransactionRow/Type").Selected = (int)transaction.Type;
         container.AddChild(tableRow);
+        tableRow.EditTransaction += onEditTransaction;
     }
+
+    private void onEditTransaction(int currentIndex, int previousIndex, string guid)
+    {
+        
+    }
+
 
     private void LoadCSV(string path)
     {
@@ -90,7 +114,31 @@ public partial class AppManager : Control
             }
             AddTransactionToTransaction(tableRow[3], tableRow[1],
                 tableRow[4] != "" ? float.Parse(tableRow[4]) : float.Parse(tableRow[5]),
-                "Home", tableRow[4] == "");  
+                4, tableRow[4] == "");
         }
     }
+
+    private void SetUpCategories()
+    {
+        foreach (var item in Enum.GetValues(typeof(TransactionType)))
+        {
+            Node transactionLineItem = TransactionCategoryLineItem.Instantiate();
+            transactionLineItem.GetNode<Label>("Type").Text = item.ToString();
+            transactionLineItem.GetNode<Label>("Actual").Text = "0";
+            transactionLineItem.GetNode<Label>("Difference").Text = "0";
+            GetNode("CategoryTransactionItems/Body").AddChild(transactionLineItem);
+        }
+    }
+
+    private void UpdateCategoriesValues(Transaction transaction)
+    {
+        foreach (var item in GetNode("TransactionCategoryItems/Body").GetChildren())
+        {
+            if (item.GetNode<Label>("Type").Text == transaction.Type.ToString())
+            {
+
+            }
+        }
+    }
+
 }
