@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://boaspwxjvtphv"]
+
+[node name="TransactionRow" type="HBoxContainer"]
+offset_left = 5.0
+offset_top = 258.0
+offset_right = 918.33
+offset_bottom = 369.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Date" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "5/20/2025"
+fit_content = true
+
+[node name="Name" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "test transaction long version"
+fit_content = true
+
+[node name="Amount" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "50000"
+fit_content = true
+
+[node name="Type" type="RichTextLabel" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "home is a long value"
+fit_content = true

@@ -1,0 +1,113 @@
+[gd_scene load_steps=2 format=3 uid="uid://modibiicgxsw"]
+
+[ext_resource type="Script" uid="uid://jo3wpn84sbmd" path="res://Scripts/AddTransactionWindow.cs" id="1_qlo7s"]
+
+[node name="AddTransactionWindow" type="Panel"]
+offset_left = 173.0
+offset_top = 177.0
+offset_right = 477.0
+offset_bottom = 442.0
+script = ExtResource("1_qlo7s")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 21.0
+offset_top = 21.0
+offset_right = -22.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Name" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Name"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Name"
+fit_content = true
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Name"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Date" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Date"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Date"
+fit_content = true
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Date"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Amount" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Amount"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Amount"
+fit_content = true
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Amount"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Type" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/Type"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Type"
+fit_content = true
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Type"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="IncomeCheckButton" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="VBoxContainer/IncomeCheckButton"]
+custom_minimum_size = Vector2(70, 0)
+layout_mode = 2
+text = "Income"
+fit_content = true
+
+[node name="CheckButton" type="CheckButton" parent="VBoxContainer/IncomeCheckButton"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Add" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -120.0
+offset_top = -43.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Add"
+
+[node name="Cancel" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -43.0
+offset_right = 120.0
+grow_vertical = 0
+text = "Cancel"
+
+[connection signal="button_down" from="Add" to="." method="_on_add_button_down"]
+[connection signal="button_down" from="Cancel" to="." method="_on_cancel_button_down"]
