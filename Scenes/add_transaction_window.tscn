@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://modibiicgxsw"]
 
-[ext_resource type="Script" uid="uid://jo3wpn84sbmd" path="res://Scripts/AddTransactionWindow.cs" id="1_qlo7s"]
+[ext_resource type="Script" uid="uid://jo3wpn84sbmd" path="res://scripts/AddTransactionWindow.cs" id="1_qlo7s"]
 
 [node name="AddTransactionWindow" type="Panel"]
 offset_left = 173.0
@@ -69,9 +69,21 @@ layout_mode = 2
 text = "Type"
 fit_content = true
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/Type"]
+[node name="Type" type="OptionButton" parent="VBoxContainer/Type"]
 layout_mode = 2
 size_flags_horizontal = 3
+selected = 0
+item_count = 5
+popup/item_0/text = "Home"
+popup/item_0/id = 0
+popup/item_1/text = "Utilities"
+popup/item_1/id = 1
+popup/item_2/text = "Food"
+popup/item_2/id = 2
+popup/item_3/text = "Entertainment"
+popup/item_3/id = 3
+popup/item_4/text = "Other"
+popup/item_4/id = 4
 
 [node name="IncomeCheckButton" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2

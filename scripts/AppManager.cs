@@ -84,13 +84,21 @@ public partial class AppManager : Control
         tableRow.GetNode<RichTextLabel>("TransactionRow/Name").Text = transaction.Name;
         tableRow.GetNode<RichTextLabel>("TransactionRow/Amount").Text = transaction.Amount.ToString();
         tableRow.GetNode<OptionButton>("TransactionRow/Type").Selected = (int)transaction.Type;
+        tableRow.CurrentTransaction = transaction;
         container.AddChild(tableRow);
         tableRow.EditTransaction += onEditTransaction;
     }
 
     private void onEditTransaction(int currentIndex, int previousIndex, string guid)
     {
-        
+        foreach (var item in currentBudget.Expenses)
+        {
+            if (item.id.ToString() == guid)
+            {
+                item.Type = (TransactionType)currentIndex;
+                UpdateCategoriesValues(item);
+            }
+        }
     }
 
 

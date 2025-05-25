@@ -12,7 +12,7 @@ public partial class TransactionRow : Panel
     [Signal]
     public delegate void EditTransactionEventHandler(int currentIndex, int previousIndex, string guid);
 
-    public void _on_type_item_focused(int index)
+    public void _on_type_item_selected(int index)
     {
         CurrentTransaction.Type = (TransactionType)index;
         previousIndex = currentIndex;
